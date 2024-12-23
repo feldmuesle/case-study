@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { FileView } from './FileView/FileView';
 
 export function App() {
   // Do not hesitate to refactor this effect or use a different library to retrieve data
@@ -9,5 +10,5 @@ export function App() {
       .then(console.log);
   }, []);
 
-  return <h1>Corti Frontend Home Assignment</h1>;
+  return <FileView />;
 }
