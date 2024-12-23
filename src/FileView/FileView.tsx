@@ -7,17 +7,6 @@ export function FileView() {
   const data = useGetSortedFileData();
   const [activeItems, setActiveItems] = useState<string[]>([]);
 
-  console.log(data);
-
-  const handleClick = (id: string) => {
-    setActiveItems((prevState) => {
-      if (prevState.includes(id)) {
-        return prevState.filter((activeId) => activeId !== id);
-      }
-      return [...prevState, id];
-    });
-  };
-
   return (
     <Wrapper>
       <Title>Home assignment</Title>
@@ -25,7 +14,7 @@ export function FileView() {
         <Sidebar>
           <DataTree
             data={data ?? []}
-            onActiveClick={handleClick}
+            onActiveClick={setActiveItems}
             activeItems={activeItems}
           />
         </Sidebar>
