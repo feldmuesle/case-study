@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useGetSortedFileData } from '../hooks/useGetSortedFileData';
+import { Sidebar } from './Sidebar';
 
 export function FileView() {
   const data = useGetSortedFileData();
@@ -12,7 +13,11 @@ export function FileView() {
     <Wrapper>
       <Title>Home assignment</Title>
       <ContentWrapper>
-        <Sidebar>tree items to come</Sidebar>
+        <Sidebar
+          data={data ?? []}
+          onActiveClick={setActiveItem}
+          activeItem={activeItem}
+        />
         <Content>awesome stuff to come</Content>
       </ContentWrapper>
     </Wrapper>
@@ -40,11 +45,4 @@ const Content = styled.div`
   flex-direction: column;
   flex: 1;
   padding: 20px 40px;
-`;
-
-const Sidebar = styled.div`
-  width: 300px;
-  height: 100%;
-  border-right: 1px solid #cecece;
-  padding: 20px;
 `;
