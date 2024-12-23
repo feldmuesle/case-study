@@ -6,6 +6,7 @@ export interface FileDataItem {
   name: string;
   id: string;
   type: FileDataType;
+  children?: FileDataItem[];
 }
 
 export interface FileData {
