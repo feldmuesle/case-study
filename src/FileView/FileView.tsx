@@ -1,8 +1,13 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { useGetSortedFileData } from '../hooks/useGetSortedFileData';
 
 export function FileView() {
+  const data = useGetSortedFileData();
   const [activeItem, setActiveItem] = useState<string>('');
+
+  console.log(data);
+
   return (
     <Wrapper>
       <Title>Home assignment</Title>
