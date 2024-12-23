@@ -29,6 +29,7 @@ export function DataTree({ data, activeItems, onActiveClick }: DataTreeProps) {
           const isExpanded = activeItems.includes(folder.id);
           return (
             <StyledTreeItem
+              key={folder.id}
               onClick={(e) => toggleFolder(e, folder.id)}
               $isActive={isExpanded}
             >
