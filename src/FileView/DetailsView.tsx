@@ -15,7 +15,7 @@ export function DetailsView({ data, onClick }: DetailsViewProps) {
   return data.children ? (
     <StyledDetails>
       {data.children.map((child) => (
-        <Detail
+        <Thumbnail
           key={child.id}
           id={child.id}
           name={child.name}
@@ -25,14 +25,17 @@ export function DetailsView({ data, onClick }: DetailsViewProps) {
       ))}
     </StyledDetails>
   ) : (
-    <StyledDetail onClick={() => onClick([data.id])}>
-      <span>name: {data.name}</span>
-      <span>type: {data.type}</span>
-    </StyledDetail>
+    <div>
+      <h3>Preview</h3>
+      <StyledDetail onClick={() => onClick([data.id])}>
+        <span>name: {data.name}</span>
+        <span>type: {data.type}</span>
+      </StyledDetail>
+    </div>
   );
 }
 
-function Detail({
+function Thumbnail({
   id,
   name,
   type,
@@ -44,12 +47,12 @@ function Detail({
   onClick: (path: string[]) => void;
 }) {
   return (
-    <StyledDetail onClick={(e) => onClick([id])}>
+    <StyledThumbnail onClick={(e) => onClick([id])}>
       {type === 'doc' && <FontAwesomeIcon icon={faFile} />}
       {type === 'folder' && <FontAwesomeIcon icon={faFolder} />}
       {type === 'image' && <FontAwesomeIcon icon={faImage} />}
       <span>{name}</span>
-    </StyledDetail>
+    </StyledThumbnail>
   );
 }
 
@@ -61,6 +64,11 @@ const StyledDetails = styled.div`
 `;
 
 const StyledDetail = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+`;
+
+const StyledThumbnail = styled.div`
   display: inline-flex;
   flex-direction: column;
   align-items: center;
