@@ -5,28 +5,46 @@ import { FileDataItem, FileDataType } from '../hooks/useGetSortedFileData';
 
 interface DetailsViewProps {
   data?: FileDataItem;
+  onClick: (path: string[]) => void;
+  selectedPath: string[];
 }
 
-export function DetailsView({ data }: DetailsViewProps) {
+export function DetailsView({ data, onClick }: DetailsViewProps) {
   if (!data) return null;
 
   return data.children ? (
     <StyledDetails>
       {data.children.map((child) => (
-        <Detail key={child.id} name={child.name} type={child.type} />
+        <Detail
+          key={child.id}
+          id={child.id}
+          name={child.name}
+          type={child.type}
+          onClick={onClick}
+        />
       ))}
     </StyledDetails>
   ) : (
-    <StyledDetail>
+    <StyledDetail onClick={() => onClick([data.id])}>
       <span>name: {data.name}</span>
       <span>type: {data.type}</span>
     </StyledDetail>
   );
 }
 
-function Detail({ name, type }: { name: string; type: FileDataType }) {
+function Detail({
+  id,
+  name,
+  type,
+  onClick,
+}: {
+  id: string;
+  name: string;
+  type: FileDataType;
+  onClick: (path: string[]) => void;
+}) {
   return (
-    <StyledDetail>
+    <StyledDetail onClick={(e) => onClick([id])}>
       {type === 'doc' && <FontAwesomeIcon icon={faFile} />}
       {type === 'folder' && <FontAwesomeIcon icon={faFolder} />}
       {type === 'image' && <FontAwesomeIcon icon={faImage} />}
@@ -54,5 +72,6 @@ const StyledDetail = styled.div`
     text-overflow: ellipsis;
     overflow: hidden;
     width: 100px;
+    text-align: center;
   }
 `;

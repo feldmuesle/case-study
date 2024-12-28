@@ -39,7 +39,11 @@ export function FileView() {
           />
         </Sidebar>
         <Content>
-          <DetailsView data={focusData} />
+          <DetailsView
+            data={focusData}
+            selectedPath={selectedPath ?? []}
+            onClick={setSelectedPath}
+          />
         </Content>
       </ContentWrapper>
     </Wrapper>
