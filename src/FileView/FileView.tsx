@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { MouseEvent, useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import {
   FileDataItem,
@@ -20,6 +20,13 @@ export function FileView() {
     }),
     [data]
   );
+
+  const focusData = useMemo(
+    () => selectFileDataItem(selectedPath, documents),
+    [selectedPath, data]
+  );
+
+  console.log('focusData', focusData);
   return (
     <Wrapper>
       <Title>Home assignment</Title>
@@ -69,3 +76,23 @@ const Sidebar = styled.div`
   border-right: 1px solid #cecece;
   padding: 20px;
 `;
+
+function selectFileDataItem(
+  path: string[],
+  fileData?: FileDataItem | undefined
+): FileDataItem | undefined {
+  if (path.length > 0) {
+    return path.reduce((currentLevel, id) => {
+      if (currentLevel.id !== id && currentLevel?.children) {
+        const newLevel = currentLevel.children.find((child) => child.id === id);
+        if (newLevel) {
+          return newLevel;
+        }
+      }
+
+      return currentLevel;
+    }, fileData as FileDataItem);
+  }
+
+  return undefined;
+}
