@@ -1,23 +1,34 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { useGetSortedFileData } from '../hooks/useGetSortedFileData';
-import { DataTree } from '../DataTree/DataTree';
+import {
+  FileDataItem,
+  useGetSortedFileData,
+} from '../hooks/useGetSortedFileData';
 import { DetailsView } from './DetailsView';
+import { FolderItem } from '../DataTree/FolderItem';
 
 export function FileView() {
   const data = useGetSortedFileData();
-  const [activeItems, setActiveItems] = useState<string[]>([]);
+  const [selectedPath, setSelectedPath] = useState<string[]>([]);
 
-  const focusData = data?.find((items) => items.id === activeItems?.[0]);
+  const documents: FileDataItem = useMemo(
+    () => ({
+      name: 'Documents',
+      id: 'root',
+      type: 'folder',
+      children: data,
+    }),
+    [data]
+  );
   return (
     <Wrapper>
       <Title>Home assignment</Title>
       <ContentWrapper>
         <Sidebar>
-          <DataTree
-            data={data ?? []}
-            onActiveClick={setActiveItems}
-            activeItems={activeItems}
+          <FolderItem
+            item={documents}
+            onClick={setSelectedPath}
+            selectedPath={selectedPath}
           />
         </Sidebar>
         <Content>
