@@ -9,7 +9,7 @@ interface DetailsViewProps {
   selectedPath: string[];
 }
 
-export function DetailsView({ data, onClick }: DetailsViewProps) {
+export function DetailsView({ data, onClick, selectedPath }: DetailsViewProps) {
   if (!data) return null;
 
   return data.children ? (
@@ -17,17 +17,16 @@ export function DetailsView({ data, onClick }: DetailsViewProps) {
       {data.children.map((child) => (
         <Thumbnail
           key={child.id}
-          id={child.id}
           name={child.name}
           type={child.type}
-          onClick={onClick}
+          onClick={() => onClick([...selectedPath, child.id])}
         />
       ))}
     </StyledDetails>
   ) : (
     <div>
       <h3>Preview</h3>
-      <StyledDetail onClick={() => onClick([data.id])}>
+      <StyledDetail>
         <span>name: {data.name}</span>
         <span>type: {data.type}</span>
       </StyledDetail>
@@ -36,18 +35,16 @@ export function DetailsView({ data, onClick }: DetailsViewProps) {
 }
 
 function Thumbnail({
-  id,
   name,
   type,
   onClick,
 }: {
-  id: string;
   name: string;
   type: FileDataType;
-  onClick: (path: string[]) => void;
+  onClick: () => void;
 }) {
   return (
-    <StyledThumbnail onClick={(e) => onClick([id])}>
+    <StyledThumbnail onClick={onClick}>
       {type === 'doc' && <FontAwesomeIcon icon={faFile} />}
       {type === 'folder' && <FontAwesomeIcon icon={faFolder} />}
       {type === 'image' && <FontAwesomeIcon icon={faImage} />}
