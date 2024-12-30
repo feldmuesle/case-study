@@ -41,7 +41,7 @@ export function FolderItem({
       setIsExpanded((prevState) => !prevState);
     }
 
-    onClick(path.length > 1 ? [...path, clickedItem.id] : path);
+    onClick([...path, clickedItem.id]);
   };
 
   const renderFolders = (data: FileDataItem[], path: string[]) => {
