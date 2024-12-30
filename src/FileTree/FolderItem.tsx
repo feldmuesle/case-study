@@ -92,4 +92,5 @@ const StyledFolderTitle = styled.span`
   display: flex;
   gap: 8px;
   align-items: center;
+  cursor: pointer;
 `;
