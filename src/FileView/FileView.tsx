@@ -5,7 +5,7 @@ import {
   useGetSortedFileData,
 } from '../hooks/useGetSortedFileData';
 import { DetailsView } from './DetailsView';
-import { FolderItem } from '../DataTree/FolderItem';
+import { FolderItem } from '../FileTree/FolderItem';
 
 export function FileView() {
   const data = useGetSortedFileData();
@@ -26,7 +26,6 @@ export function FileView() {
     [selectedPath, data]
   );
 
-  console.log('focusData', focusData);
   return (
     <Wrapper>
       <Title>Home assignment</Title>
