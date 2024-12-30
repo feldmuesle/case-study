@@ -65,7 +65,7 @@ export function FolderItem({
               isActive={selectedPath.includes(item.id)}
               onClick={(e) => handleItemClick(e, item, path)}
             >
-              {item.name}
+              <span>{item.name}</span>
             </FileItem>
           );
         })}

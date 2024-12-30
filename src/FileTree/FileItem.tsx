@@ -22,7 +22,7 @@ const StyledFileItem = styled.li<{ $isActive?: boolean }>`
   cursor: pointer;
   list-style: none;
   line-height: 26px;
-  &:hover {
+  span:hover {
     background-color: #f5f5f5;
   }
 `;
