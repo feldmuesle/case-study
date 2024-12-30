@@ -23,7 +23,11 @@ export function FolderItem({
   parentPath = [],
 }: FolderItemProps) {
   const isActive = selectedPath.includes(item.id);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(isActive);
+
+  useEffect(() => {
+    setIsExpanded(isActive);
+  }, [isActive]);
 
   const handleItemClick = (
     e: MouseEvent<HTMLLIElement>,
@@ -37,7 +41,7 @@ export function FolderItem({
       setIsExpanded((prevState) => !prevState);
     }
 
-    onClick([...path, clickedItem.id]);
+    onClick(path.length > 1 ? [...path, clickedItem.id] : path);
   };
 
   const renderFolders = (data: FileDataItem[], path: string[]) => {
