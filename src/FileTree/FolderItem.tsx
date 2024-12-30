@@ -26,7 +26,9 @@ export function FolderItem({
   const [isExpanded, setIsExpanded] = useState(isActive);
 
   useEffect(() => {
-    setIsExpanded(isActive);
+    if (!isExpanded) {
+      setIsExpanded(isActive);
+    }
   }, [isActive]);
 
   const handleItemClick = (
