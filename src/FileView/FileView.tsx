@@ -1,27 +1,48 @@
-import { useState } from 'react';
+import { MouseEvent, useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { useGetSortedFileData } from '../hooks/useGetSortedFileData';
-import { DataTree } from '../DataTree/DataTree';
+import {
+  FileDataItem,
+  useGetSortedFileData,
+} from '../hooks/useGetSortedFileData';
 import { DetailsView } from './DetailsView';
+import { FolderItem } from '../FileTree/FolderItem';
 
 export function FileView() {
   const data = useGetSortedFileData();
-  const [activeItems, setActiveItems] = useState<string[]>([]);
+  const [selectedPath, setSelectedPath] = useState<string[]>([]);
 
-  const focusData = data?.find((items) => items.id === activeItems?.[0]);
+  const documents: FileDataItem = useMemo(
+    () => ({
+      name: 'Documents',
+      id: 'root',
+      type: 'folder',
+      children: data,
+    }),
+    [data]
+  );
+
+  const focusData = useMemo(
+    () => selectFileDataItem(selectedPath, documents),
+    [selectedPath, data]
+  );
+
   return (
     <Wrapper>
       <Title>Home assignment</Title>
       <ContentWrapper>
         <Sidebar>
-          <DataTree
-            data={data ?? []}
-            onActiveClick={setActiveItems}
-            activeItems={activeItems}
+          <FolderItem
+            item={documents}
+            onClick={setSelectedPath}
+            selectedPath={selectedPath}
           />
         </Sidebar>
         <Content>
-          <DetailsView data={focusData} />
+          <DetailsView
+            data={focusData}
+            selectedPath={selectedPath ?? []}
+            onClick={setSelectedPath}
+          />
         </Content>
       </ContentWrapper>
     </Wrapper>
@@ -58,3 +79,23 @@ const Sidebar = styled.div`
   border-right: 1px solid #cecece;
   padding: 20px;
 `;
+
+function selectFileDataItem(
+  path: string[],
+  fileData?: FileDataItem | undefined
+): FileDataItem | undefined {
+  if (path.length > 0) {
+    return path.reduce((currentLevel, id) => {
+      if (currentLevel.id !== id && currentLevel?.children) {
+        const newLevel = currentLevel.children.find((child) => child.id === id);
+        if (newLevel) {
+          return newLevel;
+        }
+      }
+
+      return currentLevel;
+    }, fileData as FileDataItem);
+  }
+
+  return undefined;
+}
